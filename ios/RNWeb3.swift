@@ -109,7 +109,30 @@ class RNWeb3: NSObject {
       reject("E_SENDFUNDS", "\(error)", error);
     }
   }
-    
+
+  @objc
+  func decryptKeystore(
+    _ 
+    keystore: NSDictionary,
+    password: NSString,
+    resolve: RCTPromiseResolveBlock,
+    reject: RCTPromiseRejectBlock
+  ) -> Void {
+    do {
+      let jsonData = try JSONSerialization.data(withJSONObject: keystore, options: []);
+      let ks = EthereumKeystoreV3(jsonData);
+      
+      let address : String = ks.getAddress()!.address;
+      let ethereumAddress: EthereumAddress = EthereumAddress(address);
+
+      let pkData = try ks?.UNSAFE_getPrivateKeyData(password: password as String, account: ethereumAddress).toHexString();
+      
+      resolve(["privateKey": pkData]);
+    } catch {
+      reject("E_DKEYSTORE", "\(error)", error);
+    }
+  }
+
   @objc
   static func requiresMainQueueSetup() -> Bool {
     return true

@@ -149,6 +149,24 @@ public final class Web3Module extends ReactContextBaseJavaModule {
     return;
   }
 
+
+  @ReactMethod
+  public final void decryptKeystore(final ReadableMap pKeystore, final String password, final Promise pPromise) {
+    String privateKey = null;
+    try {
+      ECKeyPair eckeypair = null;
+      eckeypair = Wallet.decrypt(password, pKeystore);
+      privateKey = eckeypair.getPrivateKey().toString(16);
+
+      final WritableMap args = Arguments.createMap();
+      args.putString("privateKey",privateKey);
+      
+      pPromise.resolve(args);
+    } catch (final Exception pException) {
+      pPromise.reject(pException);
+    }
+  }
+
   /** Reads the string contents of a File. **/
   private static final String readFile(final File pFile) throws IOException {
     final StringBuilder sb = new StringBuilder();

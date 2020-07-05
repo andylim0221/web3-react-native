@@ -16,6 +16,13 @@ RCT_EXTERN_METHOD(
 )
 
 RCT_EXTERN_METHOD(
+  decryptKeystore: (NSDictionary)keystore
+  password: (NSString)password
+  resovle: (RCTPromiseResolveBlock)resolve
+  reject: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
   sendFunds: (NSDictionary)wallet
   url: (NSString)url
   password: (NSString)password
@@ -25,5 +32,5 @@ RCT_EXTERN_METHOD(
   resolve: (RCTPromiseResolveBlock)resolve
   reject: (RCTPromiseRejectBlock)reject
 )
-  
+
 @end

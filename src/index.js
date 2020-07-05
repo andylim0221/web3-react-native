@@ -58,6 +58,7 @@ const createWallet = ({ ...wallet }, url, password) => Object.freeze({
     ),
 });
 
+
 export const Web3 = url => Promise
   .resolve()
   // TODO: Could attempt to cache the associated HttpService here.
@@ -72,6 +73,14 @@ export const Web3 = url => Promise
               ([p]) => RNWeb3.createKeystore(
                 p,
               ),
+            ),
+          decrypt: (k, p) => Promise
+            .resolve([sanitizeKeystore(k), sanitizePassword(p)])
+            .then(
+              ([p]) => RNWeb3.decryptKeystore(
+                k,
+                p
+              )
             ),
         }),
         Wallet: Object.freeze({
